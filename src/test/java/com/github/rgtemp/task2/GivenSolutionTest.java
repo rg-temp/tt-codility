@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.is;
 
 public class GivenSolutionTest {
 	
-	private static Function<int[][], Integer> codilityRuner;
+	private static Function<int[][], Long> codilityRuner;
 	
 	protected int[][] getExampleInput() {
 //		A[0][0] = 5    A[0][1] = 4    A[0][2] = 4
@@ -41,16 +41,16 @@ public class GivenSolutionTest {
 	
 	@Test public void thatTheGivenExampleWorks() {
 		int[][] in = getExampleInput();
-		int actual = codilityRuner.apply(in);
-		int expected = 5;
+		long actual = codilityRuner.apply(in);
+		long expected = 5;
 		String reason = String.format("Task description states that %d should return %d", in, expected);
 		assertThat(reason, actual, is(expected));
 	}
 	
 	@Test public void thatFor1c1rSolutionIsValid() {
 		int[][] in = {{1}};
-		int actual = codilityRuner.apply(in);
-		int expected = 1;
+		long actual = codilityRuner.apply(in);
+		long expected = 1;
 		String inAsString = Arrays.toString(in);
 		String reason = String.format("For 1 column and one row %s should return %d", inAsString, expected);
 		assertThat(reason, actual, is(expected));
