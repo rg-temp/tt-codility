@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.is;
 
 public class EditedSolutionTest {
 	
-	private static Function<Integer, Integer> codilityRuner;
+	private static Function<Integer, Integer> codilityRunner;
 
 	@BeforeClass
 	public static void setUpClass() {
@@ -18,12 +18,12 @@ public class EditedSolutionTest {
 		//generic BaseTest<T, U> and be static. @BeforeClass needs to be
 		//static, thus BaseTest.thatTheGivenExampleWorks() needs to 
 		//know <T, U> which only are know after instantiation.
-		codilityRuner = new EditedSolution();
+		codilityRunner = new EditedSolution();
 	}
 	
 	@Test public void thatTheGivenExampleWorks() {
 		int in = 955;
-		int actual = codilityRuner.apply(in);
+		int actual = codilityRunner.apply(in);
 		int expected = 4;
 		String reason = String.format("Task description states that %d should return %d", in, expected);
 		assertThat(reason, actual, is(expected));
@@ -36,32 +36,32 @@ public class EditedSolutionTest {
 		String format = "%d should return %d";
 		String reason;
 		in = 1;
-		actual = codilityRuner.apply(in);
+		actual = codilityRunner.apply(in);
 		expected = -1;
 		reason = String.format(format, in, expected);
 		assertThat(reason, actual, is(expected));
 		in = 2;
-		actual = codilityRuner.apply(in);
+		actual = codilityRunner.apply(in);
 		expected = -1;
 		reason = String.format(format, in, expected);
 		assertThat(reason, actual, is(expected));
 		in = 3;
-		actual = codilityRuner.apply(in);
+		actual = codilityRunner.apply(in);
 		expected = 1;
 		reason = String.format(format, in, expected);
 		assertThat(reason, actual, is(expected));
 		in = 4;
-		actual = codilityRuner.apply(in);
+		actual = codilityRunner.apply(in);
 		expected = -1;
 		reason = String.format(format, in, expected);
 		assertThat(reason, actual, is(expected));
 		in = 5;
-		actual = codilityRuner.apply(in);
+		actual = codilityRunner.apply(in);
 		expected = -1;
 		reason = String.format(format, in, expected);
 		assertThat(reason, actual, is(expected));
 		in = 6;
-		actual = codilityRuner.apply(in);
+		actual = codilityRunner.apply(in);
 		expected = 1;
 		reason = String.format(format, in, expected);
 //		assertThat(reason, actual, is(expected));
@@ -74,7 +74,7 @@ public class EditedSolutionTest {
 		String format = "%d should return %d";
 		String reason;
 		in = 2;
-		actual = codilityRuner.apply(in);
+		actual = codilityRunner.apply(in);
 		expected = -1;
 		reason = String.format(format, in, expected);
 		assertThat(reason, actual, is(expected));

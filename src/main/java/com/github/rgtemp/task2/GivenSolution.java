@@ -45,7 +45,7 @@ public class GivenSolution implements Function<int[][], Integer>{
 
 
 	private Integer solution(int[][] matrix) {
-//		//posible solution
+//		//possible solution
 //		//traverse, if A[][] !== 0 consume
 		//TODO move state code to color consumer
 		if (!validSize(matrix)) {
