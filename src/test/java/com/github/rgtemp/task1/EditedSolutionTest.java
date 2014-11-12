@@ -14,6 +14,10 @@ public class EditedSolutionTest {
 
 	@BeforeClass
 	public static void setUpClass() {
+		// TODO: find out how to make the member codilityRuner work with a 
+		//generic BaseTest<T, U> and be static. @BeforeClass needs to be
+		//static, thus BaseTest.thatTheGivenExampleWorks() needs to 
+		//know <T, U> which only are know after instantiation.
 		codilityRuner = new EditedSolution();
 	}
 	
