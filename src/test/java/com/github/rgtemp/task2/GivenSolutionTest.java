@@ -1,5 +1,6 @@
 package com.github.rgtemp.task2;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 import org.junit.BeforeClass;
@@ -43,6 +44,15 @@ public class GivenSolutionTest {
 		int actual = codilityRuner.apply(in);
 		int expected = 5;
 		String reason = String.format("Task description states that %d should return %d", in, expected);
+		assertThat(reason, actual, is(expected));
+	}
+	
+	@Test public void thatFor1c1rSolutionIsValid() {
+		int[][] in = {{1}};
+		int actual = codilityRuner.apply(in);
+		int expected = 1;
+		String inAsString = Arrays.toString(in);
+		String reason = String.format("For 1 column and one row %s should return %d", inAsString, expected);
 		assertThat(reason, actual, is(expected));
 	}
 	

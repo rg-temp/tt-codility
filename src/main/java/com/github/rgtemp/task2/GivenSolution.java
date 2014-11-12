@@ -47,6 +47,18 @@ public class GivenSolution implements Function<int[][], Integer>{
 	private Integer solution(int[][] matrix) {
 //		//posible solution
 //		//traverse, if A[][] !== 0 consume
+		//TODO move state code to color consumer
+		if (!validSize(matrix)) {
+			return -1;
+		}
+		int numberOfColors = 0;
+//		ColorConsumer consumer = new ColorConsumer();
+//		consumer.setMatrix(matrix);
+//		consumer.consume();
+//		return consumer.getCount();
+		int color = matrix[0][0];
+		grow(color, matrix, 0, 0, numberOfColors);
+//	    grow(color, A, 0, 0);
 //		consume() {
 //		    int color = A[i][j];
 //		    grow(color, A, i, j);
@@ -75,6 +87,15 @@ public class GivenSolution implements Function<int[][], Integer>{
 //		++addFoo changes the Coordinate
 
 		throw new RuntimeException();
+	}
+	
+	private boolean validSize(int[][] matrix) {
+		//implement null checks
+		return true;
+	}
+	
+	private void grow(int color, int[][] matrix, int c, int r, int numberOfColors) {
+
 	}
 	
 	@Override
