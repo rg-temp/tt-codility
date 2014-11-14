@@ -4,6 +4,9 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.HashSet;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ColorConsumer {
 	// Improvements:
 	// iterative with Stack<Coordinate> vs recursive
@@ -12,6 +15,8 @@ public class ColorConsumer {
 	//   plusFoo return a new Coordinate
 	//   addFoo changes the Coordinate
 	
+	private static final Logger logger = LogManager.getLogger(ColorConsumer.class.getName());
+
 	private int[][] matrix;
 
 	private Coordinate lastConsumed;
@@ -31,7 +36,7 @@ public class ColorConsumer {
 		} else {
 			consumed.clear();
 		}
-		lastConsumed = new Coordinate(-1, -1);
+		lastConsumed = new Coordinate(-1, 0);
 	}
 
 	public void consume() {
@@ -39,9 +44,12 @@ public class ColorConsumer {
 			colorCount = -1l;
 			return;
 		}
+		colorCount = 0;
 		while(hasNextUnconsumed(lastConsumed)) {
 			Coordinate next = nextUnconsumed(lastConsumed);
+			logger.error(String.format("\tnext: (%s)", next));
 			consume(next);
+			++colorCount;
 			lastConsumed = next;
 		}
 	}
@@ -51,34 +59,41 @@ public class ColorConsumer {
 		try {
 			//naive implementation
 			nextUnconsumed(coor);
+			logger.error(String.format("hasNext(%s): TR", coor));
 		} catch (NoSuchElementException e) {
+			logger.error(String.format("hasNext(%s): FL", coor));
 			return false;
 		}
 		return true;
 	}
 	
 	private Coordinate nextUnconsumed(Coordinate coor) {
+		Coordinate next = coor;
+		do {
+			next = suc(next);
+ 		} while(consumed.contains(next));
+ 		if(withinBounds(next)) {
+			return next;
+		}
+		throw new NoSuchElementException("All elements inside of the matrix have been exhausted");
+	}
+	
+	private Coordinate suc(Coordinate coor) {
 		int baseX = coor.x();
 		int baseY = coor.y();
-		boolean contained;
 		Coordinate next;
 		next = new Coordinate(++baseX, baseY);
-		contained = consumed.contains(next);
 		//refactor
-		if (!contained && withinBounds(next)) {
+		if (withinBounds(next)) {
 			return next;
 		}
-		next = new Coordinate(0, ++baseY);
-		contained = consumed.contains(next);
-		if (!contained && withinBounds(next)) {
-			return next;
-		}
-		throw new NoSuchElementException("Cannot create succesor, all elements exhausted or out of bounds for matrix");
+
+		return new Coordinate(0, ++baseY);
 	}
 	
 	
 	private boolean withinBounds(Coordinate coor) {
-		//add null check, introduce explaining variable
+		//there is no null check, and not introduce explaining variable
 		return coor.y() >= 0 && coor.y() < matrix.length 
 				&& coor.x() >= 0 && coor.x() < matrix[0].length;
 	}
@@ -89,42 +104,33 @@ public class ColorConsumer {
 	}
 	
 	private void consume(Coordinate coor) {
-		//--add
 		consumed.add(coor);
 		int color = getColor(coor);
-		//--color = readColor
-		//--up
+		//up
+		consumeIfUseful(coor, 0, -1, color);
+		//right
+		consumeIfUseful(coor, 1, 0, color);
+		//down
+		consumeIfUseful(coor, 0, 1, color);
+		//left
 		consumeIfUseful(coor, -1, 0, color);
-		
-		throw new RuntimeException("implement me");
 	}
 	
 	public int getColor(Coordinate coor) {
-		throw new RuntimeException("implement me");
+		return matrix[coor.y()][coor.x()];
 	}
 
 	public void consumeIfUseful(Coordinate coor, int incX, int incY, int color) {
-		throw new RuntimeException("implement me");
-//		if (useful(coor)) {
-//			//----consume(newCoor)
-//			}
-			//--right...
-			
-//			if !inside(A, i, j) {
-//		       //return;
-//		    }
-//		    //if (color == A[i][j]) {
-//		        A[i][j] = 0;
-//		        int incI, incJ;
-//		        incI = 1;
-//		        incJ = 0;
-//		        grow(color, A, i + incI, j + incJ);
-//		        incI = 0;
-//		        incJ = 1;
-//		        grow(color, A, i + incI, j + incJ);
-//		        //...
-//		    }
-//		}
+		Coordinate newCoor = new Coordinate(coor.x() + incX, coor.y() + incY);
+		if (useful(newCoor, color)) {
+			//color will be read again
+			consume(newCoor);
+		}
+	}
+	
+	public boolean useful(Coordinate coor, int color) {
+		return !consumed.contains(coor) && withinBounds(coor)
+				&& getColor(coor) == color;
 	}
 	
 	public long getCount() {
