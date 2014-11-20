@@ -23,20 +23,24 @@ public class ColorConsumer {
 	
 	private Set<Coordinate> consumed;
 
-	private long colorCount;
+	protected long colorCount;
 	
 	public void setMatrix(int[][] matrix) {
 		this.matrix = matrix;
 		reset();
 	}
 	
-	private void reset() {
+	protected void reset() {
+		resetConsumed();
+		lastConsumed = new Coordinate(-1, 0);
+	}
+
+	protected void resetConsumed() {
 		if (consumed == null) {
 			consumed = new HashSet<>();
 		} else {
 			consumed.clear();
 		}
-		lastConsumed = new Coordinate(-1, 0);
 	}
 
 	public void consume() {
@@ -55,7 +59,7 @@ public class ColorConsumer {
 	}
 	
 	//Add wrapper call
-	private boolean hasNextUnconsumed(Coordinate coor) {
+	protected boolean hasNextUnconsumed(Coordinate coor) {
 		try {
 			//naive implementation
 			nextUnconsumed(coor);
@@ -67,7 +71,7 @@ public class ColorConsumer {
 		return true;
 	}
 	
-	private Coordinate nextUnconsumed(Coordinate coor) {
+	protected Coordinate nextUnconsumed(Coordinate coor) {
 		Coordinate next = coor;
 		do {
 			next = suc(next);
@@ -98,12 +102,12 @@ public class ColorConsumer {
 				&& coor.x() >= 0 && coor.x() < matrix[0].length;
 	}
 	
-	private boolean isSizeValid() {
+	protected boolean isSizeValid() {
 		//implement null checks
 		return true;
 	}
 	
-	private void consume(Coordinate coor) {
+	protected void consume(Coordinate coor) {
 		consumed.add(coor);
 		int color = getColor(coor);
 		//up

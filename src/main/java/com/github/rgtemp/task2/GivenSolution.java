@@ -45,7 +45,10 @@ public class GivenSolution implements Function<int[][], Long>{
 
 
 	private Long solution(int[][] matrix) {
-		ColorConsumer consumer = new ColorConsumer();
+		// add method to delegate the instantiation ColorConsumer and its 
+		// subtypes to a factory
+		//ColorConsumer consumer = new ColorConsumer();
+		ColorConsumer consumer = new IterativeColorConsumer();
 		consumer.setMatrix(matrix);
 		consumer.consume();
 		
